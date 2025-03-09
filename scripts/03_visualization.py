@@ -1,15 +1,26 @@
-# Purpose: Generates plots to visualize simulation results
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
 
-# Import necessary libraries (matplotlib, seaborn, pandas)
+df = pd.read_csv("outputs/simulation_results.csv")
 
-# Define a function plot_balance_distribution:
-#    - Creates a histogram of final balances across simulations
+def plot_balance_distribution(df):
+    plt.figure(figsize=(8, 6))
+    sns.histplot(df["final_balance"], bins=30, kde=True)
+    plt.title("Final Balance Distribution")
+    plt.xlabel("Balance")
+    plt.ylabel("Frequency")
+    plt.savefig("outputs/visualizations/balance_distribution.png")
 
-# Define a function plot_trajectory_examples:
-#    - Selects random sample of betting trajectories
-#    - Plots bankroll changes over time
+def plot_trajectory_examples(df):
+    plt.figure(figsize=(8, 6))
+    for history in df["history"].sample(5):
+        plt.plot(eval(history))  # Convert string to list
+    plt.title("Example Betting Trajectories")
+    plt.xlabel("Rounds")
+    plt.ylabel("Balance")
+    plt.savefig("outputs/visualizations/trajectory_examples.png")
 
-# Define a function plot_ruin_probability:
-#    - Visualizes the probability of ruin across different initial balances
-
-# Save all figures into the outputs/visualizations/ folder
+if __name__ == "__main__":
+    plot_balance_distribution(df)
+    plot_trajectory_examples(df)
