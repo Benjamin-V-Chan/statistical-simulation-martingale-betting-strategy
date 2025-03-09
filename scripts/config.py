@@ -1,11 +1,7 @@
-# config.py
-# Purpose: Stores configuration settings for the simulation
-
-# Define constants:
-#    - NUMBER_OF_SIMULATIONS
-#    - STARTING_BALANCE
-#    - BASE_BET
-#    - WIN_PROBABILITY
-#    - MAX_ROUNDS
-#    - STOP_LOSS
-#    - STOP_WIN
+NUMBER_OF_SIMULATIONS = 10000
+STARTING_BALANCE = 1000
+BASE_BET = 10
+WIN_PROBABILITY = 0.48  # Slightly worse than 50/50 due to casino odds
+MAX_ROUNDS = 100
+STOP_LOSS = 0
+STOP_WIN = 5000
