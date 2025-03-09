@@ -1,19 +1,32 @@
-# Purpose: Analyzes simulation results statistically
+import pandas as pd
+import numpy as np
+from scipy.stats import shapiro
 
-# Import necessary libraries (pandas, numpy, scipy.stats)
-# Load the results from the CSV file
+df = pd.read_csv("outputs/simulation_results.csv")
 
-# Define a function calculate_statistics:
-#    - Computes mean, median, standard deviation, min/max, and winning probability
-#    - Returns a dictionary with summary statistics
+def calculate_statistics(df):
+    return {
+        "mean_balance": np.mean(df["final_balance"]),
+        "median_balance": np.median(df["final_balance"]),
+        "std_dev": np.std(df["final_balance"]),
+        "min_balance": np.min(df["final_balance"]),
+        "max_balance": np.max(df["final_balance"]),
+        "win_rate": np.mean(df["final_balance"] > STARTING_BALANCE)
+    }
 
-# Define a function hypothesis_testing:
-#    - Tests if the final balances follow a normal distribution
-#    - Uses Shapiro-Wilk test or Kolmogorov-Smirnov test
-#    - Outputs the statistical significance of results
+def hypothesis_testing(df):
+    stat, p = shapiro(df["final_balance"])
+    return "Normal distribution" if p > 0.05 else "Not normal distribution"
 
-# Define a function analyze_ruin_probability:
-#    - Computes how often the player went bankrupt (balance ≤ 0)
-#    - Returns the probability of ruin
+def analyze_ruin_probability(df):
+    return np.mean(df["final_balance"] <= 0)
 
-# Save the results into a summary text file
+if __name__ == "__main__":
+    stats = calculate_statistics(df)
+    ruin_prob = analyze_ruin_probability(df)
+    norm_test = hypothesis_testing(df)
+    
+    with open("outputs/analysis_summary.txt", "w") as f:
+        f.write(str(stats) + "\n")
+        f.write(f"Ruin Probability: {ruin_prob}\n")
+        f.write(f"Normality Test: {norm_test}\n")
