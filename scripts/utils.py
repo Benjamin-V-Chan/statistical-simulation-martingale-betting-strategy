@@ -1,8 +1,7 @@
-# utils.py
-# Purpose: Helper functions for simulation and analysis
+import pandas as pd
 
-# Define a function save_to_csv:
-#    - Saves a DataFrame to a specified file
+def save_to_csv(df, filename):
+    df.to_csv(filename, index=False)
 
-# Define a function load_csv:
-#    - Loads a CSV file into a DataFrame
+def load_csv(filename):
+    return pd.read_csv(filename)
